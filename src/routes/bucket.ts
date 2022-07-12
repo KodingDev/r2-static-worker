@@ -39,7 +39,7 @@ const addBucketRoutes = (app: Hono<Environment>) => {
         snippet = "";
       } else {
         const size = prettyBytes(element.size);
-        const date = dayjs(element.uploaded).format("MMM D, YYYY @ h:mm A");
+        const date = dayjs(element.uploaded).format("MMM D, YYYY @ h:mm A UTC");
         snippet = `${size} uploaded on ${date}`;
       }
 
