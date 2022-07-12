@@ -14,12 +14,11 @@ const addSharexRoutes = (app: Hono<Environment>) => {
     const date = `${new Date().getFullYear()}-${(new Date().getMonth() + 1)
       .toString()
       .padStart(2, "0")}`;
-    const path = `uploads/${date}/${file.name}`;
 
-    await c.env.BUCKET.put(path, file.stream());
+    await c.env.BUCKET.put(`uploads/${date}/${file.name}`, file.stream());
     return c.json({
       success: true,
-      path,
+      path: `uploads/${date}/${encodeURIComponent(file.name)}`,
     });
   });
 };

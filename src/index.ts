@@ -2,13 +2,14 @@ import { Environment, StatusError } from "@/types/cloudflare";
 import { Hono } from "hono";
 import { logger } from "hono/logger";
 import { etag } from "hono/etag";
+import { mustache } from "hono/mustache.module";
 import { StatusCode } from "hono/utils/http-status";
 import addBucketRoutes from "@/routes/bucket";
 import addSharexRoutes from "@/routes/sharex";
 
 const app = new Hono<Environment>();
 
-app.use("*", etag(), logger());
+app.use("*", etag(), logger(), mustache());
 
 // Add routes
 addSharexRoutes(app);
@@ -23,6 +24,7 @@ app.onError((err, c) => {
   if (err instanceof StatusError) {
     c.status(<StatusCode>err.status);
   } else {
+    console.error(err);
     c.status(500);
   }
 

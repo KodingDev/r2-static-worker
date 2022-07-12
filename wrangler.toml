@@ -8,3 +8,6 @@ main = "src/index.ts"
 binding = "BUCKET"
 bucket_name = "koding-static"
 preview_bucket_name = "koding-static-preview"
+
+[site]
+bucket = "./view"
