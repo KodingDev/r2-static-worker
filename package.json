@@ -20,7 +20,6 @@
     "wrangler": "^2.0.16"
   },
   "dependencies": {
-    "itty-router": "^2.6.1",
-    "itty-router-extras": "^0.4.2"
+    "hono": "^1.6.4"
   }
 }
