@@ -1,8 +1,7 @@
 name = "r2-static-worker"
 account_id = "ab2449bd777040e47f49f01ef6021e83"
 workers_dev = true
-node_compat = true
-compatibility_date = "2022-06-08"
+compatibility_date = "2022-07-08"
 main = "src/index.ts"
 
 [[r2_buckets]]
