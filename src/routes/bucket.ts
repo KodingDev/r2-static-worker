@@ -2,6 +2,9 @@ import { Hono } from "hono";
 import { Environment, StatusError } from "@/types/cloudflare";
 import prettyBytes from "pretty-bytes";
 import dayjs from "dayjs";
+import { createAWSClient } from "@/util/aws";
+import { GetObjectCommand } from "@aws-sdk/client-s3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 const addBucketRoutes = (app: Hono<Environment>) => {
   app.get("*", async (c) => {
@@ -50,13 +53,19 @@ const addBucketRoutes = (app: Hono<Environment>) => {
       });
     }
 
-    // Forward the file
-    const headers = new Headers();
-    element.writeHttpMetadata(headers);
-    headers.set("etag", element.httpEtag);
+    const client = createAWSClient(c.env);
+    const command = new GetObjectCommand({
+      Key: element.key,
+      Bucket: c.env.BUCKET_NAME,
+    });
 
-    for (const [key, value] of headers) c.header(key, value);
-    return c.body(await element.arrayBuffer());
+    try {
+      const dest = await getSignedUrl(client, command, { expiresIn: 3600 });
+      return c.redirect(dest);
+    } catch (e) {
+      console.error(e);
+      throw new StatusError(500);
+    }
   });
 
   app.delete("*", async (c) => {

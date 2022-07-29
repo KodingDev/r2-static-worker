@@ -4,6 +4,10 @@ workers_dev = true
 compatibility_date = "2022-07-08"
 main = "src/index.ts"
 
+[vars]
+ACCOUNT_ID = "ab2449bd777040e47f49f01ef6021e83"
+BUCKET_NAME = "koding-static"
+
 [[r2_buckets]]
 binding = "BUCKET"
 bucket_name = "koding-static"
