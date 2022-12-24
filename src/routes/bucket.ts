@@ -47,6 +47,7 @@ const addBucketRoutes = (app: Hono<Environment>) => {
       }
 
       return c.render("discord", {
+        isVideo: extension.match(/^(mp4|webm|mov)$/),
         fileName: element.key.split("/").pop(),
         rawUrl: `${c.req.url}?raw=true`,
         snippet,
